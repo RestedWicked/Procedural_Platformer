@@ -8,9 +8,10 @@ class Player(pyglet.sprite.Sprite):
 
     def __init__(self, *args, **kwargs):
         super().__init__(img=resources.player_character[0], *args, **kwargs)
-        self.jump_height = 500
+        self.jump_height = 800
+        self.max_speed = 500
+        self.accel = 50
         self.vspeed = 0.0
-        self.max_speed = 1000
         self.speed= 0.0
 
         self.velocity_x, self.velocity_y = 0.0, 0.0
@@ -19,6 +20,7 @@ class Player(pyglet.sprite.Sprite):
         self.is_running = False
         self.is_jumping = False
         self.is_falling = False
+
         self.key_handler = key.KeyStateHandler()
 
     def on_key_press(self, symbol, modifiers):
@@ -44,6 +46,7 @@ class Player(pyglet.sprite.Sprite):
             self.run(self.flipped)
 
     def stand(self):
+        self.velocity_x = 0
         self.speed = 0
         if self.flipped == False:
             self.image = resources.player_character[0]
@@ -53,31 +56,37 @@ class Player(pyglet.sprite.Sprite):
             self.draw()
 
     def run(self, flipped):
-        self.is_running = True
+        #self.is_running = True
         if flipped == False:
-            self.speed = self.max_speed
+            self.speed = self.accel
             self.image = resources.player_character[2]
             self.draw()
         elif flipped == True:
-            self.speed = -self.max_speed
+            self.speed = -self.accel
             self.image = resources.player_character[3]
             self.draw()
 
     def jump(self):
         if self.is_jumping == False:
             self.is_jumping = True
-            self.vspeed = self.jump_height
+            self.velocity_y = self.jump_height
     
     def gravity(self):
         if self.is_falling:
-            self.vspeed = -self.jump_height
+            self.velocity_y = -self.jump_height
             
     
     def update(self, dt):
+        self.velocity_x += self.speed
+        if abs(self.velocity_x) >= self.max_speed:
+            self.velocity_x = self.velocity_x/abs(self.velocity_x) * self.max_speed
         self.x += self.velocity_x * dt
-        self.velocity_x += (self.speed - self.velocity_x) * .5
+        
         self.y += self.velocity_y * dt
-        self.velocity_y += (self.vspeed - self.velocity_y) * .3
+        self.velocity_y *= .9
+
+            
+
         
 
         
