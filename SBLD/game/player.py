@@ -8,11 +8,13 @@ class Player(pyglet.sprite.Sprite):
 
     def __init__(self, *args, **kwargs):
         super().__init__(img=resources.player_character[0], *args, **kwargs)
-        self.jump_height = 800
+        self.jump_height = 20
         self.max_speed = 500
         self.accel = 50
         self.vspeed = 0.0
         self.speed= 0.0
+
+        self.gravity = 40
 
         self.velocity_x, self.velocity_y = 0.0, 0.0
 
@@ -71,24 +73,16 @@ class Player(pyglet.sprite.Sprite):
             self.is_jumping = True
             self.velocity_y = self.jump_height
     
-    def gravity(self):
-        if self.is_falling:
-            self.velocity_y = -self.jump_height
-            
-    
     def update(self, dt):
         self.velocity_x += self.speed
         if abs(self.velocity_x) >= self.max_speed:
             self.velocity_x = self.velocity_x/abs(self.velocity_x) * self.max_speed
         self.x += self.velocity_x * dt
+
+        if self.is_jumping:
+            self.velocity_y -= self.gravity * dt
+        self.y += self.velocity_y
         
-        self.y += self.velocity_y * dt
-        self.velocity_y *= .9
-
-            
-
-        
-
-        
-
-    
+        if self.y < 200:
+            self.is_jumping = False
+            self.velocity_y = 0

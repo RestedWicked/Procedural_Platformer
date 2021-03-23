@@ -16,13 +16,19 @@ def resize_ani(grid, scale):
 def center_image(image):
     """Sets an image's anchor point to its center"""
     image.anchor_x = image.width // 2
-    image.anchor_y = image.height // 2
+    image.anchor_y = 32
 
 def center_ani(grid):
     """Sets an animation's anchor point to its center"""
     for item in grid:
         item.anchor_x = item.width // 2
-        item.anchor_y = item.height // 2
+        item.anchor_y = 13
+
+def sprite_image(image,scale):
+    image = pyglet.resource.image(image)
+    resize_image(image,scale)
+    center_image(image)
+    return image
 
 
 def animate_sprite(image, rows, columns, scale, duration, loop):
@@ -46,3 +52,6 @@ jumping_ani = animate_sprite('Jumping.png', 1, 10, 5, 0.1, False)
 fl_jumping = animate_sprite('Jumping_flipped.png', 1, 10, 5, 0.1, False)
 
 player_character = [idle_ani, fl_idle, running_ani, fl_running, jumping_ani]
+
+# Platform Sprite
+platform = sprite_image('platform.png',5)

@@ -11,7 +11,7 @@ window = Game_Window(1280, 720, "SBLD", resizable=True)
 main_batch = pyglet.graphics.Batch()
 
 
-player_character = player.Player(x=400, y=300, batch=main_batch)
+player_character = player.Player(x=400, y=200, batch=main_batch)
 
 window.push_handlers(player_character)
 window.push_handlers(player_character.key_handler)
