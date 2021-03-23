@@ -13,3 +13,7 @@
 
 # Made with Pyglet
 
+To start it
+Make sure to install pyglet
+and then run the file
+SBLD.py

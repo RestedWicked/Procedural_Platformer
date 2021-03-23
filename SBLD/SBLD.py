@@ -1,3 +1,5 @@
+### Run this File to start the game.
+
 import pyglet
 from pyglet.gl import glEnable, glTexParameteri, GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST
 from game import player
